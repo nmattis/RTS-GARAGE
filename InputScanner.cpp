@@ -14,6 +14,10 @@ InputScanner::InputScanner() {
 	pthread_create(&inputScanner, &attr, &InputScanner::readUserInput, this);
 }
 
+InputScanner::~InputScanner() {
+	// TODO
+}
+
 void* InputScanner::readUserInput(void* instance) {
 	while(true) {
 		std::cout << std::endl << "Enter command: ";
@@ -46,13 +50,19 @@ void* InputScanner::readUserInput(void* instance) {
 }
 
 void InputScanner::pushButton() {
-	// TODO: Actually set some global so we can let the controller know about this event
+	pthread_mutex_lock( &::inputScannerMutex );
+	::INPUT = RemoteButton;
+	pthread_mutex_unlock( &::inputScannerMutex );
 }
 
 void InputScanner::tripIR() {
-	// TODO: Actually set some global so we can let the controller know about this event
+	pthread_mutex_lock( &::inputScannerMutex );
+	::INPUT = IRSensor;
+	pthread_mutex_unlock( &::inputScannerMutex );
 }
 
 void InputScanner::motorOverCurrent() {
-	// TODO: Actually set some global so we can let the controller know about this event
+	pthread_mutex_lock( &::inputScannerMutex );
+	::INPUT = MotorOC;
+	pthread_mutex_unlock( &::inputScannerMutex );
 }

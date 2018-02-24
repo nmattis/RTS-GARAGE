@@ -11,12 +11,14 @@
 #include <pthread.h>
 #include <iostream>
 
+#include "SharedVars.h"
+
 class InputScanner {
 public:
 	pthread_t inputScanner;
 	InputScanner();
-	static void* readUserInput(void* instance);
 	virtual ~InputScanner();
+	static void* readUserInput(void* instance);
 
 private:
 	void pushButton();
