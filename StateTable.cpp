@@ -38,11 +38,31 @@ StateTable::StateTable() {
 	this->currentState = &closed;
 }
 
-State* getState() {
+State* StateTable::getState() {
 	return this->currentState;
 }
 
-void setState(State* newState) {
+bool StateTable::transition(InputEvents event) {
+	std::vector<std::pair<InputEvents, State*> > stateTrans =
+			this->currentState->getTransitions();
+	for(std::vector<std::pair<InputEvents, State*> >::iterator it =
+			stateTrans.begin();
+			it != stateTrans.end();
+			++it
+	) {
+		if (it->first == event) {
+			this->currentState->doExitAction();
+			this->setState(it->second);
+			currentState->doEntryAction();
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void StateTable::setState(State* newState) {
 	this->currentState = newState;
 }
 

@@ -15,10 +15,11 @@ public:
 	StateTable();
 	virtual ~StateTable();
 	State* getState();
-	void setState();
+	bool transition(InputEvents event);
 
 private:
 	State* currentState;
+	void setState(State* newState);
 };
 
 #endif /* STATETABLE_H_ */
