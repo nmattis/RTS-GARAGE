@@ -8,20 +8,17 @@
 #ifndef STATETABLE_H_
 #define STATETABLE_H_
 
-#include <vector>
-
 #include "State.h"
-#include "Transition.h"
 
 class StateTable {
 public:
 	StateTable();
 	virtual ~StateTable();
-	State getCurrentState();
-	Transition getNextTransition();
+	State* getState();
+	void setState();
 
 private:
-	State currentState;
+	State* currentState;
 };
 
 #endif /* STATETABLE_H_ */

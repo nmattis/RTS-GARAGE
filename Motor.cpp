@@ -19,9 +19,11 @@ Motor::~Motor() {
 }
 
 void* Motor::listenToCtrl(void* instance) {
-	do {
-		((Motor*)instance)->motorMove(::DIRECTION);
-	} while(::SHOULD_MOVE);
+	while(true) {
+		if (::SHOULD_MOVE) {
+			((Motor*)instance)->motorMove(::DIRECTION);
+		}
+	}
 
 	return 0;
 }
@@ -29,10 +31,10 @@ void* Motor::listenToCtrl(void* instance) {
 void Motor::motorMove(bool direction) {
 	switch(::MOTOR_POS) {
 		case 10:
-			::FULL_OPEN = 1;
+			::FULL_OPEN = true;
 			break;
 		case 0:
-			::FULL_CLOSE = 1;
+			::FULL_CLOSE = true;
 			break;
 		default:
 			if (direction) {
