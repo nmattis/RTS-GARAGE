@@ -14,4 +14,5 @@ public:
 	virtual ~GarageDoorController();
 };
 
+
 #endif /* GARAGEDOORCONTROLLER_H_ */
