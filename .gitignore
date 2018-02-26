@@ -1,1 +1,6 @@
-x86/*
+// IDE generated
+x86
+.idea
+
+// compiler generated
+cmake-build-debug
