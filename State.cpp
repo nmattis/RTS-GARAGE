@@ -8,7 +8,7 @@
 #include "State.h"
 
 void Closed::doEntryAction() {
-	std::cout << "Door Closed!" << std::endl;
+	std::cout << std::endl << "Door Closed!" << std::endl;
 	::FULL_CLOSE = true;
 	::SHOULD_MOVE = false;
 }
@@ -18,7 +18,6 @@ void Closed::doExitAction() {
 }
 
 void Opening::doEntryAction() {
-	std::cout << "Motor moving UP!" << std::endl;
 	::SHOULD_MOVE = true;
 	::DIRECTION = UP;
 }
@@ -28,7 +27,7 @@ void Opening::doExitAction() {
 }
 
 void Opened::doEntryAction() {
-	std::cout << "Door Open!" << std::endl;
+	std::cout << std::endl << "Door Open!" << std::endl;
 	::FULL_OPEN = true;
 	::SHOULD_MOVE = false;
 }
@@ -38,15 +37,14 @@ void Opened::doExitAction() {
 }
 
 void Closing::doEntryAction() {
-	std::cout << "IR Sensor ON" << std::endl;
-	std::cout << "Motor moving DOWN!" << std::endl;
+	std::cout << std::endl << "IR Sensor ON" << std::endl;
 	::SHOULD_MOVE = true;
 	::IR_SENSOR = ON;
 	::DIRECTION = DOWN;
 }
 
 void Closing::doExitAction() {
-	std::cout << "IR Sensor OFF" << std::endl;
+	std::cout << std::endl << "IR Sensor OFF" << std::endl;
 	::IR_SENSOR = OFF;
 }
 

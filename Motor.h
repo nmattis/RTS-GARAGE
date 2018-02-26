@@ -9,6 +9,8 @@
 #define MOTOR_H_
 
 #include <pthread.h>
+#include <unistd.h>
+#include <iostream>
 
 #include "SharedVars.h"
 

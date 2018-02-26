@@ -10,10 +10,10 @@
 
 #include <pthread.h>
 
-#define UP (1)
-#define DOWN (0)
-#define ON (1)
-#define OFF (0)
+#define UP (true)
+#define DOWN (false)
+#define ON (true)
+#define OFF (false)
 
 enum InputEvents {
 	RemoteButton = 0,
@@ -35,6 +35,6 @@ extern int MOTOR_POS;
 extern bool FULL_OPEN;
 extern bool FULL_CLOSE;
 
-extern pthread_mutex_t inputScannerMutex;
+extern pthread_mutex_t MUTEX;
 
 #endif /* SHAREDVARS_H_ */

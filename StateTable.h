@@ -9,6 +9,7 @@
 #define STATETABLE_H_
 
 #include "State.h"
+#include "SharedVars.h"
 
 class StateTable {
 public:

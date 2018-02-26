@@ -6,12 +6,35 @@
  */
 
 #include "GarageDoorController.h"
+#include "SharedVars.h"
 
-GarageDoorController::GarageDoorController() {
-	// TODO Auto-generated constructor stub
-
+GarageDoorController::GarageDoorController(StateTable* stateTable) {
+	this->stateTable = stateTable;
+	pthread_attr_t attr;
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+	pthread_create(&controller, &attr, GarageDoorController::doTheControlling, this);
 }
 
 GarageDoorController::~GarageDoorController() {
 	// TODO Auto-generated destructor stub
+}
+
+void* GarageDoorController::doTheControlling(void* instance) {
+	while(true) {
+		switch(::INPUT) {
+			case RemoteButton:
+			case IRSensor:
+			case MotorOC:
+			case FullOpen:
+			case FullClose:
+				((GarageDoorController*)instance)->stateTable->transition(::INPUT);
+				::INPUT = None;
+				break;
+			default:
+				break;
+		}
+	}
+
+	return 0;
 }

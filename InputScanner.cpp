@@ -11,7 +11,7 @@ InputScanner::InputScanner() {
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-	pthread_create(&inputScanner, &attr, &InputScanner::readUserInput, this);
+	pthread_create(&inputScanner, &attr, InputScanner::readUserInput, this);
 }
 
 InputScanner::~InputScanner() {
@@ -50,19 +50,19 @@ void* InputScanner::readUserInput(void* instance) {
 }
 
 void InputScanner::pushButton() {
-	pthread_mutex_lock( &::inputScannerMutex );
+	pthread_mutex_lock( &::MUTEX );
 	::INPUT = RemoteButton;
-	pthread_mutex_unlock( &::inputScannerMutex );
+	pthread_mutex_unlock( &::MUTEX );
 }
 
 void InputScanner::tripIR() {
-	pthread_mutex_lock( &::inputScannerMutex );
+	pthread_mutex_lock( &::MUTEX );
 	::INPUT = IRSensor;
-	pthread_mutex_unlock( &::inputScannerMutex );
+	pthread_mutex_unlock( &::MUTEX );
 }
 
 void InputScanner::motorOverCurrent() {
-	pthread_mutex_lock( &::inputScannerMutex );
+	pthread_mutex_lock( &::MUTEX );
 	::INPUT = MotorOC;
-	pthread_mutex_unlock( &::inputScannerMutex );
+	pthread_mutex_unlock( &::MUTEX );
 }
