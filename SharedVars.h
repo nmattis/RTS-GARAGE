@@ -21,7 +21,7 @@ enum InputEvents {
 	MotorOC = 2,
 	FullOpen = 3,
 	FullClose = 4,
-	None = 3
+	None = 5
 };
 
 extern InputEvents INPUT;

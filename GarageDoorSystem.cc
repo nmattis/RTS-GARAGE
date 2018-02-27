@@ -8,7 +8,7 @@
 
 InputEvents INPUT = None;
 
-bool DIRECTION = UP;
+bool DIRECTION = DOWN;
 bool SHOULD_MOVE = OFF;
 bool IR_SENSOR = OFF;
 
@@ -17,21 +17,21 @@ int MOTOR_POS = 0;
 bool FULL_OPEN = false;
 bool FULL_CLOSE = true;
 
+
+
 pthread_mutex_t MUTEX = PTHREAD_MUTEX_INITIALIZER;
 
 int main(int argc, char *argv[]) {
-
+	::INPUT = None;
 	InputScanner * inputScanner = new InputScanner();
 	Motor * motor = new Motor();
 
 	while(true) {
-		//std::cout << "I'm waiting" << std::endl;
 		switch(::INPUT) {
 			case RemoteButton:
-
 				pthread_mutex_lock( &::MUTEX );
 				::SHOULD_MOVE = ON;
-				::DIRECTION = UP;
+				::DIRECTION = ::DIRECTION == UP ? DOWN : UP;
 				::INPUT = None;
 				pthread_mutex_unlock( &::MUTEX );
 				break;
@@ -50,11 +50,12 @@ int main(int argc, char *argv[]) {
 				pthread_mutex_unlock( &::MUTEX );
 				break;
 			default:
-				std::cout << "Nothing Good." << std::endl;
+				break;
 		}
 	}
-//	StateTable* stateTable = new StateTable();
 
+//	StateTable* stateTable = new StateTable();
+//
 //	GarageDoorController* ctrl = new GarageDoorController(stateTable);
 
 //	while(true) {
@@ -72,6 +73,7 @@ int main(int argc, char *argv[]) {
 //				break;
 //		}
 //	}
+
 
 	return EXIT_SUCCESS;
 }

@@ -21,9 +21,9 @@ public:
 	static void* readUserInput(void* instance);
 
 private:
-	void pushButton();
-	void tripIR();
-	void motorOverCurrent();
+	static void pushButton();
+	static void tripIR();
+	static void motorOverCurrent();
 };
 
 #endif /* INPUTSCANNER_H_ */

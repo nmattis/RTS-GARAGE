@@ -21,51 +21,52 @@ Motor::~Motor() {
 void* Motor::listenToCtrl(void* instance) {
 	bool lastShouldMoveState = ::SHOULD_MOVE;
 	while(true) {
-		if (lastShouldMoveState != ::SHOULD_MOVE) {
-			if (::SHOULD_MOVE == true) {
-				std::cout << "Motor on!" << std::endl;
-			} else {
-				std::cout << "Motor off!" << std::endl;
-			}
-		}
-		if (::SHOULD_MOVE) {
+		if (lastShouldMoveState) {
 			((Motor*)instance)->motorMove(::DIRECTION);
 			usleep(1000000);
 		}
-
 		lastShouldMoveState = ::SHOULD_MOVE;
-		usleep(1000000);
 	}
 
 	return 0;
 }
 
 void Motor::motorMove(bool direction) {
-	switch(::MOTOR_POS) {
-		case 10:
+	//UP is 1
+	if (direction) {
+		if (::MOTOR_POS == 0) {
+			std::cout << "Motor On!" << std::endl;
+		}
+
+		if (::MOTOR_POS < 10) {
+			std::cout << std::endl << "Motorpos = " << ::MOTOR_POS << std::endl;
+			pthread_mutex_lock( &::MUTEX );
+			::MOTOR_POS++;
+			pthread_mutex_unlock( &::MUTEX );
+		} else {
+			std::cout << "Motor Off!" << std::endl;
 			std::cout << std::endl << "Should be open." << std::endl;
 			pthread_mutex_lock( &::MUTEX );
 			::INPUT = FullOpen;
 			pthread_mutex_unlock( &::MUTEX );
-			break;
-		case 0:
+		}
+	} else {
+		if (::MOTOR_POS == 10) {
+			std::cout << "Motor On!" << std::endl;
+		}
+
+		if (::MOTOR_POS > 0) {
+			std::cout << std::endl << "Motorpos = " << ::MOTOR_POS << std::endl;
+			pthread_mutex_lock( &::MUTEX );
+			::MOTOR_POS--;
+			pthread_mutex_unlock( &::MUTEX );
+		} else {
+			std::cout << "Motor Off!" << std::endl;
 			std::cout << std::endl << "Should be closed." << std::endl;
 			pthread_mutex_lock( &::MUTEX );
 			::INPUT = FullClose;
 			pthread_mutex_unlock( &::MUTEX );
-			break;
-		default:
-			if (direction) {
-				std::cout << std::endl << "Motorpos = " << ::MOTOR_POS << std::endl;
-				pthread_mutex_lock( &::MUTEX );
-				::MOTOR_POS++;
-				pthread_mutex_unlock( &::MUTEX );
-			} else {
-				std::cout << std::endl << "Motorpos = " << ::MOTOR_POS << std::endl;
-				pthread_mutex_lock( &::MUTEX );
-				::MOTOR_POS--;
-				pthread_mutex_unlock( &::MUTEX );
-			}
+		}
 	}
 }
 

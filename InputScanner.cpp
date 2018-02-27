@@ -19,13 +19,15 @@ InputScanner::~InputScanner() {
 }
 
 void* InputScanner::readUserInput(void* instance) {
+	char keypressed[20];
+	std::cout << std::endl << "Enter command any time..." << std::endl;
+	std::cout << "Valid Inputs are:" << std::endl;
+	std::cout << "    m: Simulate Motor Overcurrent" << std::endl;
+	std::cout << "    i: Simulate IR Sensor Trip" << std::endl;
+	std::cout << "    r: Simulate Remote Push Button" << std::endl;
 	while(true) {
-		std::cout << std::endl << "Enter command: ";
-
-		char keypressed;
-		std::cin >> keypressed;
-
-		switch(keypressed) {
+		std::cin.getline( keypressed, 100, '\n' );
+		switch(keypressed[0]) {
 			case 'm':
 				std::cout << "Simulating Motor Overcurrent..." << std::endl;
 				((InputScanner*)instance)->motorOverCurrent();
