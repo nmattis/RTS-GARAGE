@@ -1,8 +1,6 @@
 /*
  * State.h
  *
- *  Created on: Feb 24, 2018
- *      Author: nxm5757
  */
 
 #ifndef STATE_H_

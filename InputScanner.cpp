@@ -1,12 +1,11 @@
 /*
  * InputScanner.cpp
  *
- *  Created on: Feb 24, 2018
- *      Author: nxm5757
+ * Class responsible for managing user input to the system.
  */
-
 #include "InputScanner.h"
 
+/** creates an input scanner thread */
 InputScanner::InputScanner() {
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
@@ -14,10 +13,15 @@ InputScanner::InputScanner() {
 	pthread_create(&inputScanner, &attr, InputScanner::readUserInput, this);
 }
 
-InputScanner::~InputScanner() {
-	// TODO
-}
+/** destructor */
+InputScanner::~InputScanner() {}
 
+/**
+ * Method that runs in a thread and takes the user input to fire
+ * off control events to the garage door controller. These events
+ * are motor over current simulation, IR sensor trip, and remote
+ * button press simulation.
+ */
 void* InputScanner::readUserInput(void* instance) {
 	char keypressed;
 	std::cout << std::endl << "Enter command any time..." << std::endl;
@@ -52,18 +56,21 @@ void* InputScanner::readUserInput(void* instance) {
 	return 0;
 }
 
+/** Fires the Remote button press event */
 void InputScanner::pushButton() {
 	pthread_mutex_lock( &::MUTEX );
 	::INPUT = RemoteButton;
 	pthread_mutex_unlock( &::MUTEX );
 }
 
+/** Fires an IR Sensor Trip event */
 void InputScanner::tripIR() {
 	pthread_mutex_lock( &::MUTEX );
 	::INPUT = IRSensor;
 	pthread_mutex_unlock( &::MUTEX );
 }
 
+/** Fires a motor over current event */
 void InputScanner::motorOverCurrent() {
 	pthread_mutex_lock( &::MUTEX );
 	::INPUT = MotorOC;

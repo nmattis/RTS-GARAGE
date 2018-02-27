@@ -1,8 +1,6 @@
 /*
  * StateTable.h
  *
- *  Created on: Feb 24, 2018
- *      Author: nxm5757
  */
 
 #ifndef STATETABLE_H_

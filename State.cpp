@@ -1,10 +1,9 @@
 /*
  * State.cpp
  *
- *  Created on: Feb 25, 2018
- *      Author: nxm5757
+ * This file contains all state definitions and their entry and exit actions.
+ * See the StateChart diagram in our documentation for explicit information.
  */
-
 #include "State.h"
 
 void Closed::doEntryAction() {
