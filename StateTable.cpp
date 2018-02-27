@@ -44,9 +44,7 @@ State* StateTable::getState() {
 
 bool StateTable::transition(InputEvents event) {
 	std::vector<std::pair<InputEvents, State*> > stateTrans = this->currentState->getTransitions();
-	for(std::vector<std::pair<InputEvents, State*> >::iterator it = stateTrans.begin();	it != stateTrans.end();
-			++it
-	) {
+	for(std::vector<std::pair<InputEvents, State*> >::iterator it = stateTrans.begin();	it != stateTrans.end();	++it) {
 		if (it->first == event) {
 			this->currentState->doExitAction();
 			this->setState(it->second);

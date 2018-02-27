@@ -67,7 +67,6 @@ int main(int argc, char *argv[]) {
 			case MotorOC:
 			case FullOpen:
 			case FullClose:
-            std::cout << ::INPUT << std::endl;
 				stateTable->transition(::INPUT);
 				::INPUT = None;
 				break;
