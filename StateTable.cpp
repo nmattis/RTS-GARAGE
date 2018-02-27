@@ -9,15 +9,15 @@
 #include "StateTable.h"
 #include "SharedVars.h"
 
-StateTable::StateTable() {
-	// initialize everything
-	Closed closed;
-	Opening opening;
-	Opened opened;
-	Closing closing;
-	StoppedClosing stoppedClosing;
-	StoppedOpening stoppedOpening;
+// initialize everything
+Closed closed;
+Opening opening;
+Opened opened;
+Closing closing;
+StoppedClosing stoppedClosing;
+StoppedOpening stoppedOpening;
 
+StateTable::StateTable() {
 	// set transitions
 	closed.setTransition(RemoteButton, &opening);
 
@@ -43,11 +43,8 @@ State* StateTable::getState() {
 }
 
 bool StateTable::transition(InputEvents event) {
-	std::vector<std::pair<InputEvents, State*> > stateTrans =
-			this->currentState->getTransitions();
-	for(std::vector<std::pair<InputEvents, State*> >::iterator it =
-			stateTrans.begin();
-			it != stateTrans.end();
+	std::vector<std::pair<InputEvents, State*> > stateTrans = this->currentState->getTransitions();
+	for(std::vector<std::pair<InputEvents, State*> >::iterator it = stateTrans.begin();	it != stateTrans.end();
 			++it
 	) {
 		if (it->first == event) {

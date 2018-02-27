@@ -25,54 +25,56 @@ int main(int argc, char *argv[]) {
 	::INPUT = None;
 	InputScanner * inputScanner = new InputScanner();
 	Motor * motor = new Motor();
-
-	while(true) {
-		switch(::INPUT) {
-			case RemoteButton:
-				pthread_mutex_lock( &::MUTEX );
-				::SHOULD_MOVE = ON;
-				::DIRECTION = ::DIRECTION == UP ? DOWN : UP;
-				::INPUT = None;
-				pthread_mutex_unlock( &::MUTEX );
-				break;
-			case FullOpen:
-				pthread_mutex_lock( &::MUTEX );
-				::SHOULD_MOVE = OFF;
-				::FULL_OPEN = true;
-				::INPUT = None;
-				pthread_mutex_unlock( &::MUTEX );
-				break;
-			case FullClose:
-				pthread_mutex_lock( &::MUTEX );
-				::SHOULD_MOVE = OFF;
-				::FULL_CLOSE = true;
-				::INPUT = None;
-				pthread_mutex_unlock( &::MUTEX );
-				break;
-			default:
-				break;
-		}
-	}
-
-//	StateTable* stateTable = new StateTable();
-//
-//	GarageDoorController* ctrl = new GarageDoorController(stateTable);
+    StateTable* stateTable = new StateTable();
 
 //	while(true) {
 //		switch(::INPUT) {
 //			case RemoteButton:
-//			case IRSensor:
-//			case MotorOC:
-//			case FullOpen:
-//			case FullClose:
-//				//((GarageDoorController*)instance)->stateTable->transition(::INPUT);
-//				stateTable->transition(::INPUT);
+//                stateTable->transition(RemoteButton);
+//				pthread_mutex_lock( &::MUTEX );
+//				::SHOULD_MOVE = ON;
+//				::DIRECTION = ::DIRECTION == UP ? DOWN : UP;
 //				::INPUT = None;
+//				pthread_mutex_unlock( &::MUTEX );
+//				break;
+//			case FullOpen:
+//				pthread_mutex_lock( &::MUTEX );
+//				::SHOULD_MOVE = OFF;
+//				::FULL_OPEN = true;
+//				::INPUT = None;
+//				pthread_mutex_unlock( &::MUTEX );
+//				break;
+//			case FullClose:
+//				pthread_mutex_lock( &::MUTEX );
+//				::SHOULD_MOVE = OFF;
+//				::FULL_CLOSE = true;
+//				::INPUT = None;
+//				pthread_mutex_unlock( &::MUTEX );
 //				break;
 //			default:
 //				break;
 //		}
 //	}
+
+//	StateTable* stateTable = new StateTable();
+//
+//	GarageDoorController* ctrl = new GarageDoorController(stateTable);
+
+	while(true) {
+		switch(::INPUT) {
+			case RemoteButton:
+			case IRSensor:
+			case MotorOC:
+			case FullOpen:
+			case FullClose:
+            std::cout << ::INPUT << std::endl;
+				stateTable->transition(::INPUT);
+				::INPUT = None;
+				break;
+			default:
+				break;
+		}
+	}
 
 
 	return EXIT_SUCCESS;

@@ -10,6 +10,7 @@
 
 #include "State.h"
 #include "SharedVars.h"
+#include <vector>
 
 class StateTable {
 public:
