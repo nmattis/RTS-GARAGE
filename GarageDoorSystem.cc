@@ -1,43 +1,61 @@
+/**
+ * GarageDoorSystem.cc
+ *
+ * The controller or context for the entire system. Responsible for
+ * communicating state and actions from the input scanner to the
+ * state table and motor.
+ */
 #include <cstdlib>
 #include <iostream>
+#include <pthread.h>
 #include "InputScanner.h"
 #include "Motor.h"
-#include "SharedVars.h"
+#include "StateTable.h"
 
+/** initialize our inputs */
 InputEvents INPUT = None;
 
-bool DIRECTION = 0;
-bool SHOULD_MOVE = 0;
+bool DIRECTION = DOWN;
+bool SHOULD_MOVE = OFF;
+bool IR_SENSOR = OFF;
 
 int MOTOR_POS = 0;
 
-bool FULL_OPEN = 0;
-bool FULL_CLOSE = 1;
+bool FULL_OPEN = false;
+bool FULL_CLOSE = true;
 
-pthread_mutex_t inputScannerMutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t MUTEX = PTHREAD_MUTEX_INITIALIZER;
 
 int main(int argc, char *argv[]) {
+	::INPUT = None;
+	InputScanner * inputScanner;
+	Motor* motor;
 
-	InputScanner * inputScanner = new InputScanner();
-	Motor * motor = new Motor();
+	/** kick off our threads */
+	inputScanner = new InputScanner();
+	motor = new Motor();
 
+	/** initialize the state machine */
+    StateTable* stateTable = new StateTable();
+
+    // look for actions to do
 	while(true) {
-
 		switch(::INPUT) {
 			case RemoteButton:
-				std::cout << "Remote button!" << std::endl;
-				break;
 			case IRSensor:
-				std::cout << "IR Sensor!" << std::endl;
-				break;
 			case MotorOC:
-				std::cout << "OC Sensor!" << std::endl;
+			case FullOpen:
+			case FullClose:
+				// since we have a state machine with a method to check
+				// events there is no need for extra logic, just cascade
+				// and ensure the event gets passed
+				stateTable->transition(::INPUT);
+				::INPUT = None;
 				break;
 			default:
 				break;
 		}
-		pthread_mutex_unlock( &inputScannerMutex );
-		::INPUT = None;
 	}
+
 	return EXIT_SUCCESS;
 }
