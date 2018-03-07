@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <pthread.h>
+#include <sys/neutrino.h>
 #include "InputScanner.h"
 #include "Motor.h"
 #include "StateTable.h"
@@ -27,6 +28,11 @@ bool FULL_CLOSE = true;
 pthread_mutex_t MUTEX = PTHREAD_MUTEX_INITIALIZER;
 
 int main(int argc, char *argv[]) {
+	if ( ThreadCtl(_NTO_TCTL_IO, NULL) == -1) {
+		perror("Failed to get I/O access permission");
+		return 1;
+	}
+
 	::INPUT = None;
 	InputScanner * inputScanner;
 	Motor* motor;
