@@ -18,7 +18,7 @@ IOPort::IOPort() {
 	uint8_t ctrl_port_value = in8(ctrlHandle);
 	ctrl_port_value |= PORT_A_ON;
 	ctrl_port_value &= PORT_B_OFF;
-	out8( ctrlHandle, ctrl_port_value);
+	out8( ctrlHandle, ctrl_port_value );
 }
 
 
