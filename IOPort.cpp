@@ -13,7 +13,7 @@ IOPort::IOPort() {
 
 	if(ctrl_handle == MAP_DEVICE_FAILED) {
 		perror("Failed to map control register");
-		exit(0);
+
 	}
 	// Port A input, Port B output
 	uint8_t ctrl_port_value = in8(ctrl_handle);

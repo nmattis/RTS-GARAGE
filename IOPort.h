@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include <sys/mman.h>
 #include <hw/inout.h>
+#include <stdio.h>
 #define IO_PORT_SIZE 1
 #define PORT_A_ON (16)
 #define PORT_B_OFF (253)
