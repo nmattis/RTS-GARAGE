@@ -58,6 +58,9 @@ int main(int argc, char *argv[]) {
 
     // look for actions to do
 	while(true) {
+//		uint8_t port_a = in8(port_a_input);
+//		std::cout << port_a << std::endl;
+
 		port_b = in8(port_b_output);
 		std::cout << "I\'m running" << std::endl;
 		uint8_t x = (port_b | on);
