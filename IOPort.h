@@ -18,16 +18,21 @@
 #define CTRL_ADDRESS (0x28B)
 #define PORT_A_ADDRESS (0x288)
 #define PORT_B_ADDRESS (0x289)
+#define PORT_A 'A'
+#define PORT_B 'B'
+#define REST_PIN (8)
 
 
 class IOPort {
 public:
-	IOPort();
-	virtual ~IOPort();
 	uintptr_t ctrl_handle;
 	uintptr_t port_b_output;
 	uintptr_t port_a_input;
+	IOPort();
+	virtual ~IOPort();
 
+	void setOutputPin(int pin);
+	uint8_t readPort(char port);
 };
 
 #endif /* IOPORT_H_ */

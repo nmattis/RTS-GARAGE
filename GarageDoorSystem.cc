@@ -24,19 +24,6 @@ int MOTOR_POS = 0;
 
 bool FULL_OPEN = false;
 bool FULL_CLOSE = true;
-#include <stdint.h>
-#include <sys/mman.h>
-#include <hw/inout.h>
-#include <stdio.h>
-#define IO_PORT_SIZE 1
-#define PORT_A_ON (16)
-#define PORT_B_OFF (253)
-#define CTRL_ADDRESS (0x28B)
-#define PORT_A_ADDRESS (0x288)
-#define PORT_B_ADDRESS (0x289)
-uintptr_t ctrl_handle;
-uintptr_t port_b_output;
-uintptr_t port_a_input;
 
 pthread_mutex_t MUTEX = PTHREAD_MUTEX_INITIALIZER;
 
@@ -45,30 +32,15 @@ int main(int argc, char *argv[]) {
 		perror("Failed to get I/O access permission");
 		return 1;
 	}
-	ctrl_handle = mmap_device_io(IO_PORT_SIZE, CTRL_ADDRESS);
 
-	if(ctrl_handle == MAP_DEVICE_FAILED) {
-		perror("Failed to map control register");
-		return 0;
-	}
-	// Port A input, Port B output
-	uint8_t ctrl_port_value = in8(ctrl_handle);
-	ctrl_port_value |= PORT_A_ON;
-	ctrl_port_value &= PORT_B_OFF;
-	out8( ctrl_handle, ctrl_port_value );
+	IOPort * ioManager;
+	ioManager = new IOPort();
 
-	// READ AND WRITE
-	port_a_input = mmap_device_io(IO_PORT_SIZE, PORT_A_ADDRESS);
-	port_b_output = mmap_device_io(IO_PORT_SIZE, PORT_B_ADDRESS);
-
-	// 00000000
-	//B76543210
-	uint8_t port_b_input;
-	uint8_t port_b = in8(port_b_input);
-
-	uint8_t reset_toggle = 8;
-	uint8_t x = (port_b | reset_toggle);
-	out8(port_b_output, x);
+	//
+	// Initialize the FPGA state here
+	//
+	// pulls reset HI so the board works
+	ioManager->setOutputPin(REST_PIN);
 
 	uint8_t on = 3;
 	uint8_t off = 252;
