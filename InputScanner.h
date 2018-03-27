@@ -8,7 +8,9 @@
 
 #include <pthread.h>
 #include <iostream>
+#include <unistd.h>
 
+#include "IOPort.h"
 #include "SharedVars.h"
 
 class InputScanner {

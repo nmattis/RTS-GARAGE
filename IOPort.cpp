@@ -7,12 +7,21 @@
 
 #include "IOPort.h"
 
+IOPort* IOPort::instance = 0;
+
+IOPort* IOPort::getInstance() {
+	if (instance == 0) {
+		instance = new IOPort::IOPort();
+	}
+
+	return instance;
+}
+
 IOPort::IOPort() {
 	ctrl_handle = mmap_device_io(IO_PORT_SIZE, CTRL_ADDRESS);
 
 	if(ctrl_handle == MAP_DEVICE_FAILED) {
 		perror("Failed to map control register");
-		return 0;
 	}
 
 	// Port A input, Port B output
@@ -28,9 +37,15 @@ IOPort::IOPort() {
 
 IOPort::~IOPort() {}
 
-void IOPort::setOutputPin(int pin) {
+void IOPort::setOutputPinOn(int pin) {
 	uint8_t port_val = this->readPort(PORT_B);
 	uint8_t set_val = (port_val | pin);
+	out8(this->port_b_output, set_val);
+}
+
+void IOPort::setOutputPinOff(int pin) {
+	uint8_t port_val = this->readPort(PORT_B);
+	uint8_t set_val = (port_val & (~pin));
 	out8(this->port_b_output, set_val);
 }
 
@@ -41,6 +56,7 @@ uint8_t IOPort::readPort(char port) {
 		case 'B':
 			return in8(this->port_b_output);
 		default:
+			uint8_t nothing = 0;
+			return nothing;
 	}
 }
-

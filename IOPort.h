@@ -21,18 +21,27 @@
 #define PORT_A 'A'
 #define PORT_B 'B'
 #define REST_PIN (8)
+#define BIT0 (0x1)
+#define BIT1 (0x2)
+#define BIT2 (0x4)
+#define BIT3 (0x8)
+#define BIT4 (0x10)
 
 
 class IOPort {
 public:
+	static IOPort* getInstance();
+
+	void setOutputPinOn(int pin);
+	void setOutputPinOff(int pin);
+	uint8_t readPort(char port);
+private:
+	static IOPort* instance;
 	uintptr_t ctrl_handle;
 	uintptr_t port_b_output;
 	uintptr_t port_a_input;
 	IOPort();
 	virtual ~IOPort();
-
-	void setOutputPin(int pin);
-	uint8_t readPort(char port);
 };
 
 #endif /* IOPORT_H_ */
