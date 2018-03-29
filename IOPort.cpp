@@ -1,14 +1,22 @@
 /*
  * IOPort.cpp
  *
- *  Created on: Mar 7, 2018
- *      Author: nxm5757
+ * Singleton class for setting up the ports on the purple
+ * box for input output. Also has helper functoins for
+ * allowing easy manipulation of the bits of those
+ * registers.
  */
 
 #include "IOPort.h"
 
+// singleton instance, uninitialized
 IOPort* IOPort::instance = 0;
 
+/**
+ * Function to allow other classes access to the
+ * singleton. If the class has not been instantiated
+ * yet this function is responsible for that.
+ */
 IOPort* IOPort::getInstance() {
 	if (instance == 0) {
 		instance = new IOPort::IOPort();
@@ -17,6 +25,10 @@ IOPort* IOPort::getInstance() {
 	return instance;
 }
 
+/**
+ * Constructor, maps the registers, and sets up initially
+ * the ports to be input/output.
+ */
 IOPort::IOPort() {
 	ctrl_handle = mmap_device_io(IO_PORT_SIZE, CTRL_ADDRESS);
 
@@ -35,20 +47,31 @@ IOPort::IOPort() {
 	port_b_output = mmap_device_io(IO_PORT_SIZE, PORT_B_ADDRESS);
 }
 
+/** destructor */
 IOPort::~IOPort() {}
 
+/**
+ * Function for setting a specific bit on PORT B to ON or 1.
+ */
 void IOPort::setOutputPinOn(int pin) {
 	uint8_t port_val = this->readPort(PORT_B);
 	uint8_t set_val = (port_val | pin);
 	out8(this->port_b_output, set_val);
 }
 
+/**
+ * Function for setting a specific bit on PORT B to OFF or 0.
+ */
 void IOPort::setOutputPinOff(int pin) {
 	uint8_t port_val = this->readPort(PORT_B);
 	uint8_t set_val = (port_val & (~pin));
 	out8(this->port_b_output, set_val);
 }
 
+/**
+ * Reads data from a specific port, in this case
+ * Port A or B.
+ */
 uint8_t IOPort::readPort(char port) {
 	switch(port) {
 		case 'A':

@@ -10,7 +10,6 @@
 #include <pthread.h>
 #include <sys/neutrino.h>
 #include "InputScanner.h"
-#include "Motor.h"
 #include "StateTable.h"
 
 /** initialize our inputs */

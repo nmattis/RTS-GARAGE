@@ -1,8 +1,5 @@
 /*
  * IOPort.h
- *
- *  Created on: Mar 7, 2018
- *      Author: nxm5757
  */
 
 #ifndef IOPORT_H_
@@ -12,6 +9,15 @@
 #include <sys/mman.h>
 #include <hw/inout.h>
 #include <stdio.h>
+
+/**
+ * Port A, B, CTRL addresses of the registers
+ * Port A is our Input so ON value to reflect that
+ * Port B is our Output so OFF value to reflect that
+ *
+ * Port A, B character defines
+ * Register Bit definitions for readablity
+ */
 #define IO_PORT_SIZE 1
 #define PORT_A_ON (16)
 #define PORT_B_OFF (253)
